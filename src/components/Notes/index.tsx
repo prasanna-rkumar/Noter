@@ -6,7 +6,7 @@ import NoteModal from "./EditNote";
 
 const Notes = () => {
   const [selected, setSelected] = useState(-1);
-  const [notes, setNotes] = useState<Note[]>([
+  const notes: Note[] = ([
     {
       id: "1",
       title: "T-minus 5",
