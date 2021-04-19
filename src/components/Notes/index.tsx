@@ -1,10 +1,10 @@
 import { motion, AnimatePresence, AnimateSharedLayout } from "framer-motion";
-import { useState } from "react";
+import { FC, useState } from "react";
 import Note from "../../interfaces/note.interface";
 import NoteModal from "./EditNote";
 
 
-const Notes = () => {
+const Notes:FC = () => {
   const [selected, setSelected] = useState(-1);
   const notes: Note[] = ([
     {
@@ -24,7 +24,7 @@ const Notes = () => {
     },
   ]);
   return (
-    <div>
+    <div className="mx-2">
       <AnimateSharedLayout type="switch">
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-28">
           {notes.map((datum, index) => {

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import Note from "../../interfaces/note.interface";
 
 interface NoteClick {
@@ -7,7 +7,7 @@ interface NoteClick {
   onClick: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const NoteModal = ({ note: propNote, onClick }: NoteClick) => {
+const NoteModal: FC<NoteClick> = ({ note: propNote, onClick }) => {
   const [note, setNote] = useState<Note>({
     ...propNote,
   });
