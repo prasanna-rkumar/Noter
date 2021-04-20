@@ -20,7 +20,7 @@ const AddNote: FC = () => {
   return (
     <div
       style={{
-        boxShadow: "0 3px 7px 2px darkgrey",
+        boxShadow: "0 3px 3px 0 darkgrey",
       }}
       onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.stopPropagation();
