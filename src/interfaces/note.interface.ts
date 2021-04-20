@@ -1,7 +1,8 @@
 interface Note {
-  id: string;
+  id?: string;
   title?: string;
   content?: string;
+  createdAt?: any;
 }
 
 export default Note;
