@@ -17,7 +17,7 @@ const Navbar: FC = () => (
     </div>
     <div className="col-span-7 ">
       <input
-        placeholder="Search"
+        placeholder="Search by exact Title"
         type="text"
         className="bg-gray-200 rounded w-full max-w-md h-10 pl-4"
       />
