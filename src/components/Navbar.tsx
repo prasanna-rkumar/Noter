@@ -1,10 +1,11 @@
 import { FC } from "react";
 import { GrAddCircle, GrLogout } from "react-icons/gr";
 import { noterAuth } from "../firebase";
+import Menu from "./shared/Menu";
 
 const Navbar: FC = () => (
   <nav className="fixed bg-white z-40 top-0 left-0 h-16 w-full border-b-2 border-gray-700 border-opacity-25 grid grid-cols-12 gap-4 items-center px-4">
-    <div className="col-span-3 flex gap-2 items-center">
+    <div className="col-span-2 sm:col-span-3 flex gap-2 items-center">
       <img
         className="cursor-pointer"
         width={36}
@@ -12,7 +13,7 @@ const Navbar: FC = () => (
         src="/notes.svg"
         alt="logo"
       />
-      <h1 className="font-semibold text-gray-600 text-xl">Noter</h1>
+      <h1 className="font-semibold invisible sm:visible text-gray-600 text-xl">Noter</h1>
     </div>
     <div className="col-span-7 ">
       <input
@@ -22,7 +23,14 @@ const Navbar: FC = () => (
       />
     </div>
     <div className="col-span-2 flex gap-3 justify-end ">
-      <GrAddCircle size={32} className="float-right cursor-pointer" />
+      <Menu
+        title={<GrAddCircle size={32} className="float-right cursor-pointer" />}
+        menuItems={[
+          <div onClick={() => {}}>
+            New Note
+          </div>
+        ]}
+      />
       <GrLogout
         onClick={() => noterAuth.signOut()}
         size={30}
