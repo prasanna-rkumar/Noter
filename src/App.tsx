@@ -8,9 +8,8 @@ import {
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import HomePageComponent from "./components/HomePageComponent";
 import Login from "./components/Login";
-import Navbar from "./components/Navbar";
-import Notes from "./components/Notes";
 import Register from "./components/Register";
 import { noterAuth } from "./firebase";
 
@@ -37,7 +36,6 @@ export default App;
 
 const WhichRouter = () => {
   const [user, loading, error] = useAuthState(noterAuth);
-  console.log(user, loading, error);
   if (error) return null;
   if (loading) return <div>Loading...</div>;
   if (user === null) {
@@ -65,10 +63,7 @@ const WhichRouter = () => {
           <Redirect to="/" />
         </Route>
         <Route exact path="/">
-          <div className="App mt-16 max-w-7xl mx-auto">
-            <Navbar />
-            <Notes />
-          </div>
+          <HomePageComponent />
         </Route>
       </Switch>
     );
