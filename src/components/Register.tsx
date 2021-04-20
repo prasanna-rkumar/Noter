@@ -1,11 +1,14 @@
-import { FC, useState, FormEvent, MouseEvent } from "react";
+import { FC, useState, FormEvent } from "react";
 import { toast } from "react-toastify";
 import TextFormField from "./shared/TextFormField";
-import { FcGoogle } from "react-icons/fc";
-import { GoogleAuthProvider, noterAuth } from "../firebase";
+import { noterAuth } from "../firebase";
 import { Link, useHistory } from "react-router-dom";
+import { UserCredential } from "@firebase/auth-types";
+import createUser from "../firebase/dbhelpers/createUser";
+import GoogleAuthButton from "./shared/GoogleAuthButton";
 
 const Register: FC = () => {
+  const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
@@ -19,29 +22,39 @@ const Register: FC = () => {
       setCheckPassword("");
       return;
     }
-    noterAuth.createUserWithEmailAndPassword(email, password).catch((error) => {
-      switch (error.code) {
-        case "auth/email-already-in-use":
-          toast.warning(
-            <p className="text-gray-800">
-              {error.message}{" "}
-              <Link className="text-blue-600 underline" to="/login">
-                Click here to login
-              </Link>
-            </p>,
-            {
-              onClick: () => history.push("/login"),
-            }
-          );
-      }
-      console.log(error);
-    });
-  };
-
-  const onGoogleSignInClick = (event: MouseEvent<HTMLButtonElement>) => {
-    noterAuth.signInWithPopup(new GoogleAuthProvider()).catch((error) => {
-      console.log(error);
-    });
+    noterAuth
+      .createUserWithEmailAndPassword(email, password)
+      .catch((error) => {
+        switch (error.code) {
+          case "auth/email-already-in-use":
+            toast.warning(
+              <p className="text-gray-800">
+                {error.message}{" "}
+                <Link className="text-blue-600 underline" to="/login">
+                  Click here to login
+                </Link>
+              </p>,
+              {
+                onClick: () => history.push("/login"),
+              }
+            );
+        }
+        console.log(error);
+      })
+      .then((value) => {
+        let { additionalUserInfo, user } = value as UserCredential;
+        if (additionalUserInfo?.isNewUser) {
+          user?.updateProfile({
+            displayName: fullname,
+          });
+          createUser({
+            uid: user?.uid as string,
+            email: user?.email as string,
+            dp: user?.photoURL,
+            fullname,
+          });
+        }
+      });
   };
 
   return (
@@ -59,6 +72,14 @@ const Register: FC = () => {
         </header>
         <main className="mt-6 mx-auto">
           <form onSubmit={onSubmit}>
+            <TextFormField
+              required
+              label="Ful name"
+              type="fullname"
+              placeholder="John Doe"
+              value={fullname}
+              onChange={(event) => void setFullname(event.target.value)}
+            />
             <TextFormField
               required
               label="Email"
@@ -95,15 +116,7 @@ const Register: FC = () => {
             <Hr />
           </div>
           <div>
-            <button
-              onClick={onGoogleSignInClick}
-              className="w-full transition-colors duration-500 hover:bg-yellow-500 hover:bg-opacity-10 text-center rounded h-12 border-2 border-yellow-500"
-            >
-              <FcGoogle size={24} className="inline mr-1" />
-              <span className=" relative top-0.5 text-yellow-500 font-semibold text-lg">
-                Continue with Google
-              </span>
-            </button>
+            <GoogleAuthButton />
           </div>
         </main>
       </div>

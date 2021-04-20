@@ -1,9 +1,9 @@
-import { FC, useState, FormEvent, MouseEvent } from "react";
+import { FC, useState, FormEvent } from "react";
 import { toast } from "react-toastify";
 import TextFormField from "./shared/TextFormField";
-import { FcGoogle } from "react-icons/fc";
-import { GoogleAuthProvider, noterAuth } from "../firebase";
+import { noterAuth } from "../firebase";
 import { Link, useHistory } from "react-router-dom";
+import GoogleAuthButton from "./shared/GoogleAuthButton";
 
 const Login: FC = () => {
   const [email, setEmail] = useState("");
@@ -28,12 +28,6 @@ const Login: FC = () => {
             }
           );
       }
-      console.log(error);
-    });
-  };
-
-  const onGoogleSignInClick = (event: MouseEvent<HTMLButtonElement>) => {
-    noterAuth.signInWithPopup(new GoogleAuthProvider()).catch((error) => {
       console.log(error);
     });
   };
@@ -81,15 +75,7 @@ const Login: FC = () => {
             <Hr />
           </div>
           <div>
-            <button
-              onClick={onGoogleSignInClick}
-              className="w-full transition-colors duration-500 hover:bg-yellow-500 hover:bg-opacity-10 text-center rounded h-12 border-2 border-yellow-500"
-            >
-              <FcGoogle size={24} className="inline mr-1" />
-              <span className=" relative top-0.5 text-yellow-500 font-semibold text-lg">
-                Continue with Google
-              </span>
-            </button>
+            <GoogleAuthButton />
           </div>
         </main>
       </div>
