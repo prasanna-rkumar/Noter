@@ -24,7 +24,7 @@ const useNotes = () => {
     return () => unsub();
   }, []);
 
-  return { notes: docs };
+  return { notes: docs, setNotes: setDocs };
 }
 
 export default useNotes;
