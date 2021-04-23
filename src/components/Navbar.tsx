@@ -1,8 +1,10 @@
 import { FC, useContext } from "react";
-import { GrAddCircle, GrLogout, GrList, GrGrid } from "react-icons/gr";
+import { BsViewList } from "react-icons/bs";
+import { AiOutlineLogout } from "react-icons/ai";
+import { FiGrid } from 'react-icons/fi';
 import { AppContext } from "../context/AppContext";
 import { noterAuth } from "../firebase";
-import Menu from "./shared/Menu";
+import IconButton from "./shared/IconButton";
 
 const Navbar: FC = () => {
   return (
@@ -19,24 +21,18 @@ const Navbar: FC = () => {
           Noter
         </h1>
       </div>
-      <div className="col-span-7 ">
+      <div className="col-span-6">
         <input
           placeholder="Search by exact Title"
           type="text"
-          className="bg-gray-200 rounded w-full max-w-md h-10 pl-4"
+          className="bg-gray-200 rounded w-full max-w-md h-10 pl-2 md:pl-4"
         />
       </div>
-      <div className="col-span-2 flex gap-3 justify-end ">
+      <div className="col-start-11 col-span-2 flex gap-0 md:gap-3 justify-end ">
         <LayoutToggleButton />
-        <Menu
-          title={
-            <GrAddCircle size={32} className="float-right cursor-pointer" />
-          }
-          menuItems={[<div onClick={() => {}}>New Note</div>]}
-        />
-        <button>
-          <GrLogout onClick={() => noterAuth.signOut()} size={30} />
-        </button>
+        <IconButton onClick={() => noterAuth.signOut()}>
+          <AiOutlineLogout size={26} />
+        </IconButton>
       </div>
     </nav>
   );
@@ -45,9 +41,9 @@ const Navbar: FC = () => {
 const LayoutToggleButton = () => {
   const { layout, toggleLayout } = useContext(AppContext);
   return (
-    <button onClick={() => toggleLayout()}>
-      {layout === "grid" ? <GrGrid size={26} /> : <GrList size={26} />}
-    </button>
+    <IconButton onClick={() => toggleLayout()}>
+      {layout !== "grid" ? <FiGrid size={26} /> : <BsViewList size={26} />}
+    </IconButton>
   );
 };
 
