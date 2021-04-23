@@ -1,4 +1,4 @@
-import { FC, useState, FormEvent, MouseEvent } from "react";
+import { FC, useState } from "react";
 import { toast } from "react-toastify";
 import TextFormField from "./shared/TextFormField";
 import { noterAuth } from "../firebase";
@@ -11,10 +11,7 @@ const Login: FC = () => {
 
   const history = useHistory();
 
-  const onSubmit = (
-    event: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
+  const onSubmit = (email: string, password: string) => {
     noterAuth.signInWithEmailAndPassword(email, password).catch((error) => {
       switch (error.code) {
         case "auth/user-not-found":
@@ -48,7 +45,12 @@ const Login: FC = () => {
           </h6>
         </header>
         <main className="mt-6 mx-auto">
-          <form onSubmit={onSubmit}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              onSubmit(email, password);
+            }}
+          >
             <TextFormField
               required
               label="Email"
@@ -75,7 +77,7 @@ const Login: FC = () => {
               onClick={(e) => {
                 setEmail("afellowdev@internet.com");
                 setPassword("mysterydev");
-                onSubmit(e);
+                onSubmit("afellowdev@internet.com", "mysterydev");
               }}
             >
               Login as Guest
