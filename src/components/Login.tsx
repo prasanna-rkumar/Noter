@@ -1,4 +1,4 @@
-import { FC, useState, FormEvent } from "react";
+import { FC, useState, FormEvent, MouseEvent } from "react";
 import { toast } from "react-toastify";
 import TextFormField from "./shared/TextFormField";
 import { noterAuth } from "../firebase";
@@ -11,7 +11,9 @@ const Login: FC = () => {
 
   const history = useHistory();
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (
+    event: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
     noterAuth.signInWithEmailAndPassword(email, password).catch((error) => {
       switch (error.code) {
@@ -64,10 +66,20 @@ const Login: FC = () => {
               onChange={(event) => void setPassword(event.target.value)}
             />
             <input
-              className="w-full transition-colors hover:bg-yellow-600 cursor-pointer rounded h-12 text-white font-medium text-base bg-yellow-500"
+              className="w-full transition-colors my-2 hover:bg-yellow-600 cursor-pointer rounded h-12 text-white font-medium text-base bg-yellow-500"
               type="submit"
               value="Login"
             />
+            <button
+              className="w-full transition-colors my-2 bg-yellow-500 bg-opacity-0 hover:bg-opacity-10 cursor-pointer rounded h-12 border-2 border-yellow-500 font-medium text-base text-yellow-500"
+              onClick={(e) => {
+                setEmail("afellowdev@internet.com");
+                setPassword("mysterydev");
+                onSubmit(e);
+              }}
+            >
+              Login as Guest
+            </button>
           </form>
           <div className="flex flex-row justify-between items-center gap-4 my-6">
             <Hr />
