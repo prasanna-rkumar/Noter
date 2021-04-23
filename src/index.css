@@ -23,3 +23,37 @@ code {
 .dropdown:focus .dropdown-menu {
   display: block;
 }
+
+
+
+
+
+
+.quill {
+  overflow-y: auto;
+  height: 100%;
+}
+
+.ql-editor {
+  font-size: 2ch;
+}
+
+.add-note .ql-toolbar {
+  border: none !important;
+}
+
+.add-note .ql-container {
+  border: none !important;
+}
+
+.add-note .ql-editor {
+  min-height: 8ch;
+}
+
+.editor-container {
+  max-height: 80vh;
+}
+
+.editor-container .ql-editor {
+  min-height: 8rem;
+}

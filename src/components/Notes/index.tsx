@@ -26,8 +26,8 @@ export default function PresenceDemo() {
           <NoteItem
             item={item}
             setIndex={() => {
-              /* setIndex(i);
-             */}}
+              setIndex(i);
+            }}
             key={i}
             index={i}
             setPosition={setPosition}

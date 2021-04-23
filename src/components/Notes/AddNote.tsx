@@ -1,43 +1,62 @@
 import { FC, useEffect, useRef, useState } from "react";
+import ReactQuill from "react-quill";
 import createNote from "../../firebase/dbhelpers/createNote";
 
 const AddNote: FC = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [isDisabled, setDisabled] = useState(true);
+  const [showEditor, setShowEditor] = useState(false);
 
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
+  const editorContainerRef = useRef<any>(null);
 
   useEffect(() => {
-    if (title !== "" && content !== "") {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }, [title, content]);
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (!editorContainerRef?.current.contains(event.target)) {
+        if (!showEditor) return;
+        setShowEditor(false);
+      }
+    };
+
+    window.addEventListener("click", handleOutsideClick);
+    return () => window.removeEventListener("click", handleOutsideClick);
+  }, [showEditor, editorContainerRef]);
 
   return (
     <div
+      ref={editorContainerRef}
       style={{
         boxShadow: "0 3px 3px 0 darkgrey",
       }}
       onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.stopPropagation();
+        setShowEditor(true);
       }}
-      className="mt-28 border-2 text-left  flex flex-col items-stretch mx-auto border-gray-200 rounded-md py-3 px-4 bg-white w-full max-w-xl shadow-lg"
+      className="add-note mt-28 border-2 text-left flex flex-col items-stretch mx-auto border-gray-200 rounded-md py-3 bg-white w-full max-w-xl shadow-lg"
     >
       <input
         ref={titleRef}
         onKeyUp={(e) => {
           if (e.code === "Enter") contentRef.current?.focus();
         }}
-        className="font-semibold text-base mb-2.5 outline-none"
+        className="font-semibold text-base mb-2.5 outline-none  px-4"
         value={title}
-        placeholder="Title"
+        placeholder={showEditor ? "Title" : "Make a note..."}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <textarea
+      {showEditor && (
+        <ReactQuill
+          style={{
+            minHeight: "4ch",
+          }}
+          className="w-full"
+          value={content}
+          placeholder="Make a note..."
+          onChange={(html) => setContent(html)}
+        />
+      )}
+      {/* <textarea
         onKeyUp={() => {
           if (contentRef.current !== null) {
             contentRef.current.style.height = "48px";
@@ -50,15 +69,17 @@ const AddNote: FC = () => {
         value={content}
         placeholder="Make a note..."
         onChange={(e) => setContent(e.target.value)}
-      />
-      <div className="flex flex-row justify-end">
+      /> */}
+      <div className="flex flex-row justify-end px-4">
         <input
-          disabled={isDisabled}
+          disabled={title.trim() === "" || content.trim() === ""}
           onClick={(e) => {
-            if (title !== "" && content !== "") {
+            let trimmedTitle = title.trim(),
+              trimmedContent = content.trim();
+            if (trimmedTitle !== "" && trimmedContent !== "") {
               createNote({
-                title,
-                content,
+                title: trimmedTitle,
+                content: trimmedContent,
               });
               setTitle("");
               setContent("");
