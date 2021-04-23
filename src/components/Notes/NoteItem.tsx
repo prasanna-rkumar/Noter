@@ -82,7 +82,7 @@ const NoteItem = ({
         </p>
       )}
       <div className="h-6 opacity-0 w-full transition-opacity duration-200 group-hover:opacity-100">
-        <div className="flex items-center justify-end px-3 note-toolbar absolute w-full h-8 rounded bg-gradient-to-t from-gray-50 bottom-0 left-0">
+        <div className="flex items-center justify-end px-3 note-toolbar absolute w-full h-8 bottom-0 left-0">
           <button
             onClick={(e) => {
               e.stopPropagation();

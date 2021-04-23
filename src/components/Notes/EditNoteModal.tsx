@@ -108,7 +108,7 @@ const EditNoteModal: FC<Props> = ({ item, onClick }: Props) => {
           placeholder="Make a Note..."
         /> */}
         <div className="h-10 w-full transition-opacity duration-200">
-          <div className="flex items-center justify-end px-3 note-toolbar absolute w-full h-10 rounded bg-gradient-to-t from-gray-50 bottom-0 left-0">
+          <div className="flex items-center justify-end px-3 note-toolbar absolute w-full h-10 bottom-0 left-0">
             <button
               onClick={(e) => {
                 e.stopPropagation();
