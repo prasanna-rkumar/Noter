@@ -14,15 +14,23 @@ interface Props {
   canDrag: boolean;
 }
 
-const NoteItem = ({ item, setIndex, index, setPosition, moveItem, canDrag }: Props) => {
+const NoteItem = ({
+  item,
+  setIndex,
+  index,
+  setPosition,
+  moveItem,
+  canDrag,
+}: Props) => {
   const [isDragging, setDragging] = useState(false);
   const ref = useRef<HTMLLIElement>(null);
 
   const dragOriginY = useMotionValue(0);
   const dragOriginX = useMotionValue(0);
 
+  const content = removeHTMLTags(item.content).substring(0, 96);
+
   useEffect(() => {
-    console.log(item.title?.trim(), item.content?.trim());
     setPosition(index, {
       height: ref.current?.offsetHeight,
       top: ref.current?.offsetTop,
@@ -53,8 +61,6 @@ const NoteItem = ({ item, setIndex, index, setPosition, moveItem, canDrag }: Pro
         moveItem(index, info.offset);
       }}
       transition={(info: PanInfo) => {
-        console.log("transition");
-        console.log(info.delta, "transition");
         if (isDragging) {
           dragOriginY.set(dragOriginY.get() + info.delta.y);
           dragOriginX.set(dragOriginX.get() + info.delta.x);
@@ -63,8 +69,14 @@ const NoteItem = ({ item, setIndex, index, setPosition, moveItem, canDrag }: Pro
       }}
     >
       <h6 className="font-medium mb-2">{item.title}</h6>
-      <p>{removeHTMLTags(item.content)}</p>
-      {item.title?.trim() === "" && item.content?.trim() === "" && (
+      <p>
+        {content?.concat(
+          content?.length !== undefined && content?.length >= 96
+            ? "..."
+            : ""
+        )}
+      </p>
+      {item.title?.trim() === "" && content?.trim() === "" && (
         <p className="text-xl absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 font-semibold text-gray-500">
           Empty Note
         </p>
