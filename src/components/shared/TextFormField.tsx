@@ -22,7 +22,7 @@ const TextFormField: FC<TextFormFieldInput> = ({
       {label}
       <input
         required
-        className="block mt-2 border-2 border-gray-500 border-opacity-50 rounded w-full h-11 pl-3"
+        className="block mt-2 border-2 border-gray-500 text-black text-base border-opacity-50 rounded w-full h-11 pl-3"
         type={type}
         placeholder={placeholder}
         value={value}
