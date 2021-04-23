@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import useNotes from "../../firebase/hooks/useNotes";
 import NoteItem from "./NoteItem";
@@ -6,6 +6,7 @@ import NoteModal from "./EditNoteModal";
 import { findIndex, Position } from "../../utils/findReorderIndex";
 import { Point } from "@popmotion/popcorn";
 import move from "array-move";
+import { AppContext } from "../../context/AppContext";
 
 export default function PresenceDemo() {
   const [index, setIndex] = useState(-1);
@@ -19,9 +20,11 @@ export default function PresenceDemo() {
     if (targetIndex !== i) setNotes(move(notes, i, targetIndex));
   };
 
+  const { layout } = useContext(AppContext);
+
   return (
     <AnimateSharedLayout>
-      <ul className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-2">
+      <ul className={`mt-8 mx-auto ${layout === 'grid' ? "grid grid-cols-2 md:grid-cols-3" : "flex flex-col max-w-xl"} gap-2`}>
         {notes.map((item, i: number) => (
           <NoteItem
             item={item}
