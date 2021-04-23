@@ -31,6 +31,7 @@ export default function PresenceDemo() {
             setIndex={() => {
               setIndex(i);
             }}
+            canDrag={layout === 'list'}
             key={i}
             index={i}
             setPosition={setPosition}

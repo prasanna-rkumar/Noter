@@ -11,9 +11,10 @@ interface Props {
   index: number;
   setPosition: any;
   moveItem: any;
+  canDrag: boolean;
 }
 
-const NoteItem = ({ item, setIndex, index, setPosition, moveItem }: Props) => {
+const NoteItem = ({ item, setIndex, index, setPosition, moveItem, canDrag }: Props) => {
   const [isDragging, setDragging] = useState(false);
   const ref = useRef<HTMLLIElement>(null);
 
@@ -41,7 +42,7 @@ const NoteItem = ({ item, setIndex, index, setPosition, moveItem }: Props) => {
       animate={isDragging ? { zIndex: 50 } : { zIndex: 0 }}
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 1.12 }}
-      drag
+      drag={canDrag}
       /* _dragY={dragOriginY}
       _dragX={dragOriginX} */
       dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
