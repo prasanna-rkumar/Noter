@@ -1,4 +1,4 @@
-# Notes - A minimalistic notes taking app, with a simple text editor and smooth animations.
+# Noter - A minimalistic notes taking app build with React, TypeScript and Firebase
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
