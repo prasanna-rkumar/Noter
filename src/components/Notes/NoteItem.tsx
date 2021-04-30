@@ -69,7 +69,7 @@ const NoteItem = ({
       }}
     >
       <h6 className="font-medium mb-2">{item.title}</h6>
-      <p>
+      <p className="overflow-y-auto">
         {content?.concat(
           content?.length !== undefined && content?.length >= 96
             ? "..."
